@@ -22,13 +22,25 @@ State > Place
 
 Last, since we plan to use maps to help visualize measure values across Arizona, we uploaded publicly available shapefiles from the 2010 US Census. The files are published on the [census.gov site](https://www.census.gov/cgi-bin/geo/shapefiles/index.php).
 
-# Data Loading and Cleaning
+# SQL Data Loading and Cleaning
 We began with nine csv files representing the 2020, 2021, and 2022 PLACES releases for each of the county, place, and census tract levels. As we'd like to minimize the amount of raw data processing we ask Tableau to perform and the place and census tract files were too large to be properly displayed and editied in Excel, we loaded the raw data into a Microsoft SQL Server database we created for this purpose. For the inital 2022 file loads we used the SQL Server Flat File Import Wizard to help define column datatypes, then used a dynamic T-SQL statement for the remaining loads (and any subsequent re-loads).
 
 From the raw data tables, we filtered the data down to only Arizona and crude prevalnce values and moved it to aggregated tables containing all years for each census entities. We needed to take care to avoid loading duplicate rows since measures that are only recorded every other year are still included in each annual PLACES release with duplicate values.
 
-From there, we exported each of the Arizona-specific tables into Excel files, then loading those files in Tableau Public. We used Excel files instead of csvs to make any further needed edits easier and to handle a few commas that existed in the data that would throw off a comma-delimited file. Within tableau, we changed a number of datatypes, column names, and dimension or measure info to assist in analysis.
+From there, we exported each of the Arizona-specific tables into Excel files, then loading those files in Tableau Public. We used Excel files instead of csvs to make any further needed edits easier and to handle a few commas that existed in the data that would throw off a comma-delimited file. 
 
-# Tableau Analysis
+# Tableau Data Cleaning and Preparation
+## Cleaning
+Once the data was in Tableau we changed a number of datatypes, column names, and dimension or measure info to align with the intended data.
+
 ## Calculated Fields
+We created a handful of calculated fields to help derive insights from this dataset:
+1. Value (Percent): the initial data values were numbers 1-100, meant to be interpreted as percents, but there was no metadata communicating this so we needed to manually create a field to show the data properly.
+2. Value (State Level): we used county-level measure and population data to create a state-wide data value for each measure and year that we could benchmark more granular data against.
+3. Lower is Better?: 21 of the 30 measures are on an inverted scale where a lower value is interpreted as better. We needed to understand which measures fit into this category to properly interpret data values, so we manually read each measure description and populated this field accordingly.
+4. Quartile Value: First/Median/Third: We stored the value of the 25th, 50th and 75th percentile for each census entity, measure, and year to serve as a benchmark for individual data points.
+5. Quartile: Using the Lower is Better? and Quartile Value fields, we calculated which quartile each data point resided in within its census entity, year, and measure.
+6. MeasureID + Name: We concatenated the MeasureID and Measure fields to create one string that sorts the measure list in an understandable way while still fully explaining the measure. This is used in user-facing dashboard filters.
 
+# Tableau Workbook Link
+[https://public.tableau.com/app/profile/ben.krahenbuhl/viz/ArizonaPublicHealthMeasureExplorationWorkbook/Dashboard1](https://public.tableau.com/app/profile/ben.krahenbuhl/viz/ArizonaPublicHealthMeasureExplorationWorkbook/Dashboard1)
