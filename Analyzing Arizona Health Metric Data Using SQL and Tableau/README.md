@@ -1,4 +1,6 @@
-This project aims to provide visualizations for publicly available data from the PLACES project by the United States Centers for Disease Control (CDC). Specifically, I focused on the state of Arizona to narrow down the volume of data and because I recently moved to the Phoenix area and wanted to learn about the public health disparities across the metro area and the state as a whole.
+**[Start Here - Tableau Workbook Link](https://public.tableau.com/app/profile/ben.krahenbuhl/viz/ArizonaPublicHealthMeasureExplorationWorkbook/Dashboard1)**
+
+This project aims to provide visualizations for publicly available data from the PLACES project by the United States Centers for Disease Control (CDC). Specifically, I focused on the state of Arizona to narrow down the volume of data and because I am moving to the Phoenix area and wanted to learn about the public health disparities across the metro area and the state as a whole.
 
 # Introduction
 ## PLACES Background
@@ -30,11 +32,13 @@ From the raw data tables, we filtered the data down to only Arizona and crude pr
 From there, we exported each of the Arizona-specific tables into Excel files, then loading those files in Tableau Public. We used Excel files instead of csvs to make any further needed edits easier and to handle a few commas that existed in the data that would throw off a comma-delimited file. 
 
 # Tableau Data Cleaning and Preparation
+## Tableau Workbook Link
+[https://public.tableau.com/app/profile/ben.krahenbuhl/viz/ArizonaPublicHealthMeasureExplorationWorkbook/Dashboard1](https://public.tableau.com/app/profile/ben.krahenbuhl/viz/ArizonaPublicHealthMeasureExplorationWorkbook/Dashboard1)
 ## Cleaning
 Once the data was in Tableau we changed a number of datatypes, column names, and dimension or measure info to align with the intended data.
 
 ## Calculated Fields
-We created a handful of calculated fields to help derive insights from this dataset:
+We created a handful of calculated fields to help derive insights from this dataset. We also created additional fields not listed below for specific visualizations (e.g. to make axis names more appealing) that can be seen in the Tableau workbook.
 1. Value (Percent): the initial data values were numbers 1-100, meant to be interpreted as percents, but there was no metadata communicating this so we needed to manually create a field to show the data properly.
 2. Value (State Level): we used county-level measure and population data to create a state-wide data value for each measure and year that we could benchmark more granular data against.
 3. Lower is Better?: 21 of the 30 measures are on an inverted scale where a lower value is interpreted as better. We needed to understand which measures fit into this category to properly interpret data values, so we manually read each measure description and populated this field accordingly.
@@ -42,5 +46,5 @@ We created a handful of calculated fields to help derive insights from this data
 5. Quartile: Using the Lower is Better? and Quartile Value fields, we calculated which quartile each data point resided in within its census entity, year, and measure.
 6. MeasureID + Name: We concatenated the MeasureID and Measure fields to create one string that sorts the measure list in an understandable way while still fully explaining the measure. This is used in user-facing dashboard filters.
 
-# Tableau Workbook Link
-[https://public.tableau.com/app/profile/ben.krahenbuhl/viz/ArizonaPublicHealthMeasureExplorationWorkbook/Dashboard1](https://public.tableau.com/app/profile/ben.krahenbuhl/viz/ArizonaPublicHealthMeasureExplorationWorkbook/Dashboard1)
+# Conclusion
+From playing around with this dashboard, a user obtains a familiarity with the variance in health measures across Arizona. This set of dashboards can be used for high-level education or to drill into a specific measure and region to determine how to prioritize potential public health interventions. For example, looking across the Phoenix metro area at the census tract entity level you can see potential targets for intervention such as low rates of people visiting the dentist in South Phoenix, West Phoenix, and the Mesa area or Scottsdale having a high blood pressure rate that's not as well performing as most of its other health measures. That being said, these dashboards are only a starting point; once we have ideas on where to futher investigate, next steps would be to join the health measure data with demographic data to better target potential interventions and build a visualization to explore correlations between the measures to help group what outcomes a potential intervention should track.
